@@ -114,52 +114,54 @@
                     <!-- Section Header -->
                     <div class="flex items-center justify-between">
                         <h3 class="text-2xl font-semibold text-gray-300">Latest Jobs</h3>
-                        <p class="text-base text-white/60">1,056 Results Found</p>
+                        <p class="text-base text-white/60">{{ number_format($listings->count()) }} {{ str('Result')->plural($listings->count()) }}
+                            Found</p>
                     </div>
                     <!-- /Section Header -->
                     <!-- Job Listings -->
                     <div>
-                        <!-- Job Card -->
-                        <div
-                            class="flex flex-col gap-6 p-6 mt-8 text-white transition outline-none hover:bg-gray-600/30 hover:duration-500 rounded-xl group bg-white/5 ring-1 ring-inset ring-white/10">
-                            <div class="flex items-center justify-between">
-                                <div
-                                    class="flex flex-col items-start gap-6 md:flex-row md:items-center">
-                                    <img
-                                        alt="company logo"
-                                        loading="lazy"
-                                        class="w-16 h-16 p-2 bg-gray-700 rounded-xl"
-                                        style="color: transparent"
-                                        src="https://companyurlfinder.com/marketing/assets/img/logos/laravel.com.png"/>
-                                    <div>
-                                        <p class="text-sm font-medium text-indigo-400">
-                                            Company Name
-                                        </p>
-                                        <h6
-                                            class="mt-1 text-lg font-semibold text-white transition group-hover:opacity-90 group-hover:duration-300">
-                                            <a href="./job-details.html">The Job Title</a>
-                                        </h6>
-                                        <div class="flex items-center gap-2 mt-3">
-                                            <p
-                                                class="px-2 py-1 text-xs rounded-md bg-gray-300/30 w-fit text-white/70">
-                                                Full Time
+                        @forelse($listings as $listing)
+                            <!-- Job Card -->
+                            <div
+                                class="flex flex-col gap-6 p-6 mt-8 text-white transition outline-none hover:bg-gray-600/30 hover:duration-500 rounded-xl group bg-white/5 ring-1 ring-inset ring-white/10">
+                                <div class="flex items-center justify-between">
+                                    <div
+                                        class="flex flex-col items-start gap-6 md:flex-row md:items-center">
+                                        <img
+                                            alt="{{ $listing->company_name }}"
+                                            loading="lazy"
+                                            class="w-16 h-16 p-2 bg-gray-700 rounded-xl"
+                                            style="color: transparent"
+                                            src="{{ $listing->company_logo }}"/>
+                                        <div>
+                                            <p class="text-sm font-medium text-indigo-400">
+                                                {{ $listing->company_name }}
                                             </p>
-                                            <p
-                                                class="px-2 py-1 text-xs rounded-md bg-gray-300/30 w-fit text-white/70">
-                                                $5k - $7k
-                                            </p>
-                                            <p
-                                                class="px-2 py-1 text-xs rounded-md bg-gray-300/30 w-fit text-white/70">
-                                                12 hours ago
-                                            </p>
+                                            <h6
+                                                class="mt-1 text-lg font-semibold text-white transition group-hover:opacity-90 group-hover:duration-300">
+                                                <a href="{{ route('frontend.listing-details', $listing->id) }}">{{ $listing->title }}</a>
+                                            </h6>
+                                            <div class="flex items-center gap-2 mt-3">
+                                                <p
+                                                    class="px-2 py-1 text-xs rounded-md bg-gray-300/30 w-fit text-white/70">
+                                                    {{ $listing->employment_type->getLabel() }}
+                                                </p>
+                                                <p
+                                                    class="px-2 py-1 text-xs rounded-md bg-gray-300/30 w-fit text-white/70">
+                                                    {{ $listing->salary }}
+                                                </p>
+                                                <p
+                                                    class="px-2 py-1 text-xs rounded-md bg-gray-300/30 w-fit text-white/70">
+                                                    {{ $listing->created_at->diffForHumans() }}
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <a
-                                    class="hidden md:flex items-center gap-1.5 px-4 py-2.5 text-indigo-300 bg-gray-300/30 group-hover:bg-indigo-500 group-hover:text-white rounded-lg transition group-hover:duration-500"
-                                    href="./job-details.html">
-                                    View Job
-                                    <span>
+                                    <a
+                                        class="hidden md:flex items-center gap-1.5 px-4 py-2.5 text-indigo-300 bg-gray-300/30 group-hover:bg-indigo-500 group-hover:text-white rounded-lg transition group-hover:duration-500"
+                                        href="{{ route('frontend.listing-details', $listing->id) }}">
+                                        View Job
+                                        <span>
                       <svg
                           width="18"
                           height="18"
@@ -175,16 +177,16 @@
                         </g>
                       </svg>
                     </span>
-                                </a>
+                                    </a>
+                                </div>
+                                <p class="mt-5 text-base text-white/60">
+                                    {{ Str::limit($listing->description, 250) }}
+                                </p>
                             </div>
-                            <p class="mt-5 text-base text-white/60">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                                do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                                laboris nisi ut aliquip ex ea commodo consequat.
-                            </p>
-                        </div>
-                        <!-- /Job Card -->
+                            <!-- /Job Card -->
+                        @empty
+                            <p>No job found.</p>
+                        @endforelse
                     </div>
                     <!-- /Job Listings -->
                 </div>

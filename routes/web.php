@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 // Frontend Routes
 Route::name('frontend.')->group(function () {
     Route::get('/', HomeController::class)->name('home');
-    Route::get('/listings/{listing}', ListingDetailsController::class)->name('listing_details');
+    Route::get('/listings/{listing}', ListingDetailsController::class)->name('listing-details');
 });
 
 // Admin Dashboard Routes
