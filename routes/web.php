@@ -1,20 +1,21 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ListingController;
+use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\ListingDetailsController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
+// Frontend Routes
+Route::name('frontend.')->group(function () {
+    Route::get('/', HomeController::class)->name('home');
+    Route::get('/listings/{listing}', ListingDetailsController::class)->name('listing_details');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// Admin Dashboard Routes
+Route::middleware('auth')->prefix('admin')->group(function () {
+    Route::get('dashboard', DashboardController::class)->name('admin.dashboard');
+    Route::resource('listings', ListingController::class, ['as' => 'admin']);
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
