@@ -19,6 +19,7 @@ class HomeController extends Controller
         $listings = Listing::when($search, function ($query) use ($search) {
             return $query->where('title', 'like', "%{$search}%");
         })->latest()->get();
+
         return view('frontend.home', compact('listings'));
     }
 }

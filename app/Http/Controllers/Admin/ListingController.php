@@ -8,7 +8,6 @@ use App\Http\Requests\UpdateListingRequest;
 use App\Models\Listing;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Throwable;
 
 class ListingController extends Controller
@@ -19,6 +18,7 @@ class ListingController extends Controller
     public function index(): View
     {
         $listings = Listing::latest()->get();
+
         return view('admin.listings.index', compact('listings'));
     }
 
@@ -62,16 +62,19 @@ class ListingController extends Controller
     public function update(UpdateListingRequest $request, Listing $listing): RedirectResponse
     {
         $listing->update($request->validated());
+
         return to_route('admin.listings.index');
     }
 
     /**
      * Remove the specified resource from storage.
+     *
      * @throws Throwable
      */
     public function destroy(Listing $listing): RedirectResponse
     {
         $listing->deleteOrFail();
+
         return redirect()->route('admin.listings.index');
     }
 }

@@ -21,6 +21,7 @@ class ListingFactory extends Factory
     public function definition(): array
     {
         $title = fake()->realText(60);
+
         return [
             'title' => $title,
             'slug' => Str::slug($title),
@@ -35,7 +36,7 @@ class ListingFactory extends Factory
             'role' => fake()->jobTitle(),
             'apply_url' => fake()->url(),
             'description' => fake()->realText(600),
-            'salary' => Number::currency(fake()->numberBetween(1000, 5000)) . ' - ' . Number::currency(fake()->numberBetween(1000, 5000)),
+            'salary' => Number::currency(fake()->numberBetween(1000, 5000)).' - '.Number::currency(fake()->numberBetween(1000, 5000)),
         ];
     }
 }

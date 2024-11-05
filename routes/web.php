@@ -18,4 +18,4 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::resource('listings', ListingController::class, ['as' => 'admin']);
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
