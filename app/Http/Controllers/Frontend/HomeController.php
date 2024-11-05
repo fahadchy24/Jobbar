@@ -14,7 +14,11 @@ class HomeController extends Controller
      */
     public function __invoke(Request $request): View
     {
-        $listings = Listing::latest()->get();
+        $search = $request->input('search');
+
+        $listings = Listing::when($search, function ($query) use ($search) {
+            return $query->where('title', 'like', "%{$search}%");
+        })->latest()->get();
         return view('frontend.home', compact('listings'));
     }
 }
