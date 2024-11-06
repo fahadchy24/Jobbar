@@ -1,5 +1,7 @@
 <script setup>
+import {usePage} from "@inertiajs/vue3";
 
+const {current_year, app_name} = usePage().props;
 </script>
 
 <template>
@@ -85,7 +87,7 @@
             <!-- /Social Media Icons -->
 
             <p class="mt-10 text-xs leading-5 text-center text-gray-500">
-<!--                &copy; {{ date('Y') }} {{ config('app.name'), 'Jobbar' }}, Inc. All rights reserved.-->
+                                &copy; {{ current_year }} {{ app_name }}, Inc. All rights reserved.
             </p>
         </div>
     </footer>

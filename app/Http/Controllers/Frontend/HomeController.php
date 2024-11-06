@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\HomeListingResource;
 use App\Models\Listing;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -17,10 +18,14 @@ class HomeController extends Controller
     {
         $search = $request->input('search');
 
+        $listings = Listing::when($search, function ($query) use ($search) {
+            return $query->where('title', 'like', "%{$search}%");
+        })->latest()->get();
+
         return Inertia::render('Frontend/Home', [
-            'listings' => Listing::when($search, function ($query) use ($search) {
-                return $query->where('title', 'like', "%{$search}%");
-            })->latest()->get()
+            'listings' => HomeListingResource::collection($listings),
+            'listing_count' => number_format($listings->count()),
+            'plural' => str('Result')->plural($listings->count())
         ]);
     }
 }
