@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateListingRequest;
 use App\Http\Resources\Admin\ListingDetailsResource;
 use App\Http\Resources\Admin\ListingResource;
 use App\Models\Listing;
+use Illuminate\Http\RedirectResponse;
 use Inertia\Response;
 use Throwable;
 
@@ -78,10 +79,10 @@ class ListingController extends Controller
      *
      * @throws Throwable
      */
-    public function destroy(Listing $listing): Response
+    public function destroy(Listing $listing): RedirectResponse
     {
         $listing->deleteOrFail();
 
-        return inertia()->render('Admin/Jobs/Index');
+        return to_route('admin.listings.index');
     }
 }

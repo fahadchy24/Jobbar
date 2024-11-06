@@ -1,16 +1,24 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import {Head, Link, usePage} from "@inertiajs/vue3";
+import {Head, Link, router, usePage} from "@inertiajs/vue3";
 
 const {listing} = usePage().props;
+
+const confirmDelete = () => {
+    router.delete(route("admin.listings.destroy", listing.data.id), {
+        onBefore: (visit) => {
+            return confirm("Are you sure you want to delete this job?");
+        }
+    });
+}
 </script>
 
 <template>
-    <Head title="Show Job"/>
+    <Head :title="listing.data.title"/>
     <AuthenticatedLayout>
         <template #header>
             <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                Show Job
+                Job: {{ listing.data.title }}
             </h2>
 
             <!--Job Overview-->
@@ -57,34 +65,29 @@ const {listing} = usePage().props;
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <!-- Action Links -->
                 <div class="mb-12 inline-flex overflow-hidden rounded-md shadow-sm">
-                    <Link
+                    <a
                         class="rounded-s-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-indigo-700 focus:z-10 focus:text-indigo-700 focus:ring-0 focus:ring-indigo-700 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 dark:hover:text-white dark:focus:text-white dark:focus:ring-indigo-500"
                         target="_blank" :href="route('frontend.listing-details', listing.data.id)">
                         View
-                    </Link>
+                    </a>
 
-                    <Link
+                    <a
                         class="border-b border-r border-t border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-indigo-700 focus:z-10 focus:text-indigo-700 focus:ring-0 focus:ring-indigo-700 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 dark:hover:text-white dark:focus:text-white dark:focus:ring-indigo-500"
                         target="_blank" :href="listing.data.apply_url">
                         Apply Website
-                    </Link>
+                    </a>
 
                     <Link
                         class="border-b border-t border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-indigo-700 focus:z-10 focus:text-indigo-700 focus:ring-0 focus:ring-indigo-700 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 dark:hover:text-white dark:focus:text-white dark:focus:ring-indigo-500"
                         :href="route('admin.listings.edit', listing.data.id)">
                         Edit
                     </Link>
-                    <form onclick="return confirm('Do you really want to delete this job?')"
-                          :action="route('admin.listings.destroy', listing.data.id)" method="post">
-                        @csrf
-                        @method('DELETE')
-                        <Link
-                            class="rounded-e-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-red-200 hover:text-red-700 focus:z-10 focus:text-red-900 focus:ring-0 focus:ring-red-700 dark:border-gray-600 dark:bg-gray-700 dark:text-red-400 dark:hover:bg-red-600 dark:hover:text-white dark:focus:text-white dark:focus:ring-red-500"
-                            type="submit">
-                            Delete
-                        </Link>
-                    </form>
-
+                    <button
+                        @click="confirmDelete"
+                        class="rounded-e-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-red-200 hover:text-red-700 focus:z-10 focus:text-red-900 focus:ring-0 focus:ring-red-700 dark:border-gray-600 dark:bg-gray-700 dark:text-red-400 dark:hover:bg-red-600 dark:hover:text-white dark:focus:text-white dark:focus:ring-red-500"
+                        type="submit">
+                        Delete
+                    </button>
                 </div>
 
                 <div class="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">

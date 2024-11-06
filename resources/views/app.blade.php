@@ -16,7 +16,7 @@
             href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap"
             rel="stylesheet"/>
 
-    <title>{{ config('app.name', 'Jobbar - The Ultimate Job Board') }}</title>
+    <title inertia>{{ config('app.name', 'Jobbar - The Ultimate Job Board') }}</title>
 
 
     <!-- Scripts -->
