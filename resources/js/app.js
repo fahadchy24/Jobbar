@@ -1,13 +1,13 @@
 import './bootstrap';
 
-import { createApp, h } from 'vue'
-import { createInertiaApp } from '@inertiajs/vue3'
-import { ZiggyVue } from '../../vendor/tightenco/ziggy';
+import {createApp, h} from 'vue'
+import {createInertiaApp} from '@inertiajs/vue3'
+import {ZiggyVue} from '../../vendor/tightenco/ziggy';
 
-// const appName = import.meta.env.VITE_APP_NAME || 'Jobbar - The Ultimate Job Board';
+const appName = import.meta.env.VITE_APP_NAME || 'Jobbar - The Ultimate Job Board';
 
 createInertiaApp({
-    // title: (title) => `${title} - ${appName}`,
+    title: (title) => title ? `${title} | ${appName}` : appName,
     resolve: name => {
         const pages = import.meta.glob('./Pages/**/*.vue', {eager: true})
         return pages[`./Pages/${name}.vue`]

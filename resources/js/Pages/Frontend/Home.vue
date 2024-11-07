@@ -1,7 +1,6 @@
 <script setup>
-
 import FrontendLayout from "@/Layouts/FrontendLayout.vue";
-import {usePage, Link, useForm} from "@inertiajs/vue3";
+import {usePage, Link, useForm, Head} from "@inertiajs/vue3";
 
 const {listings, listing_count, plural, searchQuery} = usePage().props;
 
@@ -15,6 +14,7 @@ const filter = () => form.get("/");
 
 <template>
     <FrontendLayout>
+        <Head title="Home"/>
         <!-- Hero Section -->
         <section
             id="hero"

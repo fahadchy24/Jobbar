@@ -20,6 +20,7 @@ class ListingResource extends JsonResource
             'title' => $this->title,
             'company_name' => $this->company_name,
             'company_logo' => $this->company_logo,
+            'role' => $this->role,
             'employment_type' => new EmploymentTypeResource($this->employment_type),
             'salary' => $this->salary,
             'description' => str($this->description)->limit(200),
