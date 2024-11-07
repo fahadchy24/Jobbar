@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\EmploymentType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreListingRequest;
 use App\Http\Requests\UpdateListingRequest;
 use App\Http\Resources\Admin\ListingDetailsResource;
 use App\Http\Resources\Admin\ListingResource;
+use App\Http\Resources\EmploymentTypeResource;
 use App\Models\Listing;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Response;
@@ -31,17 +33,19 @@ class ListingController extends Controller
      */
     public function create(): Response
     {
-        return inertia()->render('Admin/Jobs/Create');
+        return inertia()->render('Admin/Jobs/Create', [
+            'employmentTypes' => EmploymentTypeResource::collection(EmploymentType::cases())
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreListingRequest $request): Response
+    public function store(StoreListingRequest $request): RedirectResponse
     {
         Listing::create($request->validated());
 
-        return inertia()->render('Admin/Jobs/Index');
+        return to_route('admin.listings.index');
     }
 
     /**
