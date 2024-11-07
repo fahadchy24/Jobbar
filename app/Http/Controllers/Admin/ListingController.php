@@ -64,18 +64,20 @@ class ListingController extends Controller
     public function edit(Listing $listing): Response
     {
         return inertia()->render('Admin/Jobs/Edit', [
-            'listing' => $listing
+            'employmentTypes' => EmploymentTypeResource::collection(EmploymentType::cases()),
+            'listing' => new ListingDetailsResource($listing)
         ]);
     }
 
     /**
      * Update the specified resource in storage.
+     * @throws Throwable
      */
-    public function update(UpdateListingRequest $request, Listing $listing): Response
+    public function update(UpdateListingRequest $request, Listing $listing): RedirectResponse
     {
-        $listing->update($request->validated());
+        $listing->updateOrFail($request->validated());
 
-        return inertia()->render('Admin/Jobs/Index');
+        return to_route('admin.listings.index');
     }
 
     /**
