@@ -25,7 +25,8 @@ class HomeController extends Controller
         return Inertia::render('Frontend/Home', [
             'listings' => HomeListingResource::collection($listings),
             'listing_count' => number_format($listings->count()),
-            'plural' => str('Result')->plural($listings->count())
+            'plural' => str('Result')->plural($listings->count()),
+            'searchQuery' => request('search', '')
         ]);
     }
 }

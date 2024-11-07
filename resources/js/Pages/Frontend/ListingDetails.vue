@@ -93,7 +93,7 @@ const {listing} = usePage().props;
                         <div class="flex flex-col items-start md:flex-row gap-x-6">
                             <img
                                 :src="listing.data.company_logo"
-                                alt="{{ listing.data.company_name }}"
+                                :alt="listing.data.company_name"
                                 class="flex-none w-16 h-16 rounded-full ring-1 ring-gray-900/10"/>
                             <h1>
                                 <div class="text-sm leading-6 text-indigo-400">

@@ -1,9 +1,15 @@
 <script setup>
 
 import FrontendLayout from "@/Layouts/FrontendLayout.vue";
-import {usePage, Link} from "@inertiajs/vue3";
+import {usePage, Link, useForm} from "@inertiajs/vue3";
 
-const {listings, listing_count, plural} = usePage().props;
+const {listings, listing_count, plural, searchQuery} = usePage().props;
+
+const form = useForm({
+    search: searchQuery
+});
+
+const filter = () => form.get("/");
 
 </script>
 
@@ -53,9 +59,8 @@ const {listings, listing_count, plural} = usePage().props;
                             </p>
 
                             <form
-                                class="mt-10"
-                                action=""
-                                method="GET">
+                                @submit.prevent="filter"
+                                class="mt-10">
                                 <div class="relative w-full">
                                     <svg
                                         class="absolute hidden text-white sm:block left-4 md:left-8 top-5 md:top-7"
@@ -72,7 +77,8 @@ const {listings, listing_count, plural} = usePage().props;
                                     </svg>
                                     <input
                                         type="search"
-                                        name="search" value="{{ request('search', '') }}"
+                                        name="search"
+                                        v-model="form.search"
                                         placeholder="e.g. FullStack Laravel & VueJS Developer"
                                         class="text-white bg-white/5 ring-1 ring-inset ring-white/10 outline-none rounded-xl pl-4 sm:pl-12 md:pl-20 pr-28 h-[60px] md:h-[72px] w-full"/>
 
